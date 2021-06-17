@@ -1,6 +1,4 @@
 body{
-    background: white;
-    color: blanchedalmond;
     top:0;
     left: 0;
     right: 0;
@@ -10,6 +8,19 @@ body{
     position: fixed;
 }
 
+.stats_container{
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 200px;
+    background-color: rgba(0, 0, 0, 0);
+}
+
+.stats_container li{
+    color: white;
+    list-style-type: none;
+    font-size: large;
+}
 
 canvas{
     width: 100%;

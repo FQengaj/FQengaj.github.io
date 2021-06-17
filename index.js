@@ -2,6 +2,22 @@ const canvas = document.getElementById('root');
 const ctx = canvas.getContext('2d');
 const backgroundcolor = "Black";
 
+const totalClicks = document.getElementById('totalClicks');
+const corClicks = document.getElementById('corClickCnt');
+const missClicks = document.getElementById('missClickCnt');
+const clickAcc = document.getElementById('clickAcc');
+const timeDt = document.getElementById('timeDt');
+
+const stats = {
+    totalClicks: 0,
+    corClicks: 0,
+    missClicks: 0,
+    clickAcc: 0,
+    timeDt: 0.00
+};
+
+
+//clickCounter.innerHTML = "hallo welt :)";
 let wWidth = window.innerWidth;
 let wHeight = window.innerHeight;
 
@@ -10,7 +26,7 @@ const Circ = {
     yScale: 0.5,
     r: 20, // radius
     c: 'red' // color
-}
+};
 
 const FPS = 1000/61;
 
@@ -23,7 +39,7 @@ function docReady() {
         setTimeout(start, 1);
     } else {
         document.addEventListener("DOMContentLoaded", start);
-        canvas.addEventListener("mousedown", click); 
+        window.addEventListener("mousedown", click); 
     }
 }
 
@@ -41,14 +57,34 @@ function click(params) {
 
     if (dist < Circ.r){
         // create new Circle
-        Circ.xScale = parseFloat((Math.random()).toFixed(2));
-        Circ.yScale = parseFloat((Math.random()).toFixed(2));
+        let rxScale = (Circ.r / wWidth);
+        let ryScale = (Circ.r / wHeight); 
+        Circ.xScale = parseFloat((getRandomArbitrary(0+rxScale, 1-rxScale)).toFixed(4));
+        Circ.yScale = parseFloat((getRandomArbitrary(0+ryScale, 1-ryScale)).toFixed(4));
+
+        console.log(`circ @ (${Circ.xScale}/${Circ.yScale})`);
+
+        stats.corClicks += 1;
         renderUI();
+    }else{
+        stats.missClicks += 1;
     }
+    stats.totalClicks += 1;
+    if (stats.totalClicks == 0){
+        stats.clickAcc = 1.0;
+    }else{
+        stats.clickAcc = stats.corClicks / stats.totalClicks;
+    }
+    stats.clickAcc = parseFloat((stats.clickAcc * 100).toFixed(2));
+    
+    updateStatsUI();
 
     //console.log(`pressed @ (${params.clientX}/${params.clientY})`);
 }
 
+function getRandomArbitrary(min, max) {
+    return Math.random() * (max - min) + min;
+}
 
 function start(){
     setDims();
@@ -76,6 +112,18 @@ window.onresize = () =>{
     setDims();
     console.log(`width: ${wWidth}  ---  height: ${wHeight}`);
     renderUI();
+}
+
+function updateStatsUI() {
+    totalClicks.innerHTML = "Total Clicks: " + stats.totalClicks;
+    corClicks.innerHTML = "Circil Clicks: " + stats.corClicks;
+    missClicks.innerHTML = "Missed Clicks: " + stats.missClicks;
+    clickAcc.innerHTML = "Hit accuracy: " + stats.clickAcc + "%";
+    timeDt.innerHTML = "Mean ms between Hits: " + stats.timeDt;
+    // best time between hits
+    // worst time beween hits
+    // 
+
 }
 
 function renderUI() {
