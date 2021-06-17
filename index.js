@@ -145,11 +145,18 @@ function drawCircle() {
     let x = Circ.xScale * wWidth;
     let y = Circ.yScale * wHeight;
 
-    ctx.fillStyle = 'red';
-    ctx.strokeStyle = 'green';
-    ctx.beginPath();
+    var isRed = true;
+    for (var i = Circ.r; i > 1; i -= 10){
+        if (isRed){
+            ctx.fillStyle = 'red';
+        }else{
+            ctx.fillStyle = 'white';
+        }
+        isRed = !isRed;
+        ctx.beginPath();
+        ctx.arc(x,y, i, 0, Math.PI*2, false);
+        ctx.fill();
+    }
 
     // ctx.arc(centerX, centerY, radius, startAngle, endAngle [,counterclockwise]);
-    ctx.arc(x,y, Circ.r, 0, Math.PI*2, false);
-    ctx.fill();
 }
