@@ -24,7 +24,7 @@ let wHeight = window.innerHeight;
 const Circ = {
     xScale: 0.5,
     yScale: 0.5,
-    r: 20, // radius
+    r: 40, // radius
     c: 'red' // color
 };
 
