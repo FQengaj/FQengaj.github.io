@@ -1,28 +1,25 @@
-body{
-    top:0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    margin: 0;
-    display: block;
-    position: fixed;
+.cardContainer{
+    height: 25vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    margin: 0 0 0 0;
+    text-align: center;
 }
-
-.stats_container{
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 200px;
-    background-color: rgba(0, 0, 0, 0);
-}
-
-.stats_container li{
-    color: white;
+.cardContainer > li{
     list-style-type: none;
-    font-size: large;
 }
 
-canvas{
-    width: 100%;
-    height: 100%;    
+.debug, .debug *{
+    border-width: 2px;
+    border: 3px solid darkblue;
+}
+
+.gameCard{
+    color: black;
+    border-radius: 0.5em;
+    background: rgba(192, 192, 192, 0.733);
+    text-decoration: none;
+    box-shadow: 0px 5px 20px 2px rgba(150, 150, 150, 0.795);
+    width: fit-content;
 }

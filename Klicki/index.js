@@ -119,7 +119,7 @@ function updateStatsUI() {
     corClicks.innerHTML = "Circil Clicks: " + stats.corClicks;
     missClicks.innerHTML = "Missed Clicks: " + stats.missClicks;
     clickAcc.innerHTML = "Hit accuracy: " + stats.clickAcc + "%";
-    timeDt.innerHTML = "Mean ms between Hits: " + stats.timeDt;
+    timeDt.innerHTML = "Mean ms between Hits: " + stats.timeDt + " ms";
     // best time between hits
     // worst time beween hits
     // 
