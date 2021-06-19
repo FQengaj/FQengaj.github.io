@@ -7,13 +7,16 @@ const corClicks = document.getElementById('corClickCnt');
 const missClicks = document.getElementById('missClickCnt');
 const clickAcc = document.getElementById('clickAcc');
 const timeDt = document.getElementById('timeDt');
+const bestTime = document.getElementById('bestTime');
 
 const stats = {
     totalClicks: 0,
     corClicks: 0,
     missClicks: 0,
     clickAcc: 0,
-    timeDt: 0.00
+    timeDt: 0.00,
+    bestTime: Infinity,
+    timeSum: 0
 };
 
 
@@ -29,6 +32,8 @@ const Circ = {
 };
 
 const FPS = 1000/61;
+var isPause = true;
+var lastClickTime = new Date().getTime();
 
 docReady()
 
@@ -57,6 +62,19 @@ function click(params) {
 
     if (dist < Circ.r){
         // create new Circle
+
+        if (isPause){
+            isPause = false;
+        }else{
+            var dt = new Date().getTime() - lastClickTime;
+            stats.timeDt = dt;
+            if (stats.bestTime > dt){
+                stats.bestTime = dt;
+            }
+            stats.timeSum += dt;
+        }
+        lastClickTime = new Date().getTime();
+        
         let rxScale = (Circ.r / wWidth);
         let ryScale = (Circ.r / wHeight); 
         Circ.xScale = parseFloat((getRandomArbitrary(0+rxScale, 1-rxScale)).toFixed(4));
@@ -65,6 +83,8 @@ function click(params) {
         console.log(`circ @ (${Circ.xScale}/${Circ.yScale})`);
 
         stats.corClicks += 1;
+
+        let hitAcc = 
         renderUI();
     }else{
         stats.missClicks += 1;
@@ -115,11 +135,13 @@ window.onresize = () =>{
 }
 
 function updateStatsUI() {
-    totalClicks.innerHTML = "Total Clicks: " + stats.totalClicks;
-    corClicks.innerHTML = "Circil Clicks: " + stats.corClicks;
-    missClicks.innerHTML = "Missed Clicks: " + stats.missClicks;
-    clickAcc.innerHTML = "Hit accuracy: " + stats.clickAcc + "%";
-    timeDt.innerHTML = "Mean ms between Hits: " + stats.timeDt + " ms";
+    totalClicks.innerHTML = "Total: " + stats.totalClicks;
+    corClicks.innerHTML = "Circil: " + stats.corClicks;
+    missClicks.innerHTML = "Missed: " + stats.missClicks;
+    clickAcc.innerHTML = "Accuray: " + stats.clickAcc + "%";
+    timeDt.innerHTML = "Took: " + stats.timeDt + " ms";
+    bestTime.innerHTML = "Best: " + stats.bestTime + " ms";
+    meanTime.innerHTML = "Mean: " + parseFloat(stats.timeSum/stats.corClicks).toFixed(2) + " ms";
     // best time between hits
     // worst time beween hits
     // 
